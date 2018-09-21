@@ -1,0 +1,132 @@
+---
+title: 'Worldwide Life Expectancy Analysis'
+author: 'Afsar Ali'
+date: 'Date: Oct 8, 2017'
+output:
+  prettydoc::html_pretty:
+    theme: Cayman
+    highlight: github
+    df_print: paged
+    toc: yes
+    toc_depth: '4'
+---
+
+###Executive Summary
+
+In this assignment, we are given a life expectancy set that includes seven variables: country, continent, year, lifeExp (life expectancy in years), gdpPercap (GDP per capita in US dollars), gdpBillions (GDP in billions of US dollars), and popThous (population in thousands).  It's not clear where the observations came from or the accuracy of the observations. According to the Statistical Summary of the data, there are eight observations per country with 65 counties. These countries are further broken down into five continents. Years of the observations range from 1972 to 2007. Life expectancy from the observations ranges from 38 to 82 years, and GDP per capita in US ranges from 390 to about 109k. The three major findings from this data-set are from Life expectancy, GDP per capita and years and broken down by continents. 
+
+###Code Header
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Course: BUAN 5210
+# Title: Worldwide Life Expectancy Analysis
+# Purpose: Explore and wrangle a life expectancy set with the tidyverse packages
+# Date: Oct 8, 2017
+# Author: Afsar Ali
+```
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Load Data
+QP1 <- read.csv("Quick_Proj_1_Data.csv")
+
+summary(QP1)
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+#Load packages
+library(tidyverse)
+library(gridExtra)
+library(GGally)
+library(plyr)
+library(ggplot2)
+library(lattice)
+library(xtable)
+```
+
+###Finding 1: Higher GDP per Capita is observed to have Higher Life Expectancy 
+
+
+After comparing Life Expectancy to GDP per Capita (left Graph below) and Life Expectancy to Population in thousands (right Graph Below), we can see that Oceania and Europe are visible on the higher Life expectancy side, there GDP is also much higher. On the other had Africa seems to be on the lower life expectancy side and they have the lowest GDP per Capita. Americas and Asia are in the middle; it is not clear from this graph if there GDP is higher. When we compare population in thousands to life expectancy, we can see that the observations from Asia and Americas have outliers with higher population and growing Life Expectancy. We will have to see year by year comparison to see if there is a growth in those regions.  
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+grid.arrange(
+ggplot(QP1, aes(x = lifeExp, y = gdpPercap, color = continent)) +
+  geom_point() +
+  stat_density2d() +
+  ggtitle("lifeExp with GDP Per capita", sub = "Highier life expectecny with Higer GDP"),
+ggplot(QP1, aes(x = lifeExp, y = popThous, color = continent)) +
+  geom_point() +
+  stat_density2d() +
+  ggtitle("lifeExp with Popoulation in THousands", sub = "Asia and Americas has outliers"),
+ncol = 2
+)
+```
+
+###Finding 2: Year over year life expectancy has grown on each continent 
+
+After a closer look, we can see that year over year the life expectancy has increased on all the continents (Graph on the right below this paragraph). We can also rank this growth from Africa being the lowest and Europe and Oceania having the highest Life expectancy. The Graph on the left gives us a closer insight into the relationship between GDP per Capita and Life Expectancy. We can further confirm findings 1 and two by comparing the graphs the graphs below and see that overall life expectancy is going up year by year, and higher GDP can correlate that. The substantial variation in Africa shows us a downward curve. Lets review the variation further. 
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+grid.arrange(
+ggplot(QP1, aes(gdpPercap, lifeExp)) +
+  scale_x_log10() +
+  aes(col=continent) + 
+  geom_point(alpha=0.3) + 
+  geom_smooth(lwd=2,) +
+  ggtitle("Life expectancy vs GDP by Continent") +
+  xlab("GDP Per Capita (USD)") + ylab("Life Expectancy (years)") +
+  theme_bw(),
+ggplot(QP1, aes(year, lifeExp)) +
+  aes(col=continent) + 
+  geom_point(alpha=0.3) + 
+  geom_smooth(lwd=1,) +
+  ggtitle("Life expectancy by year") + 
+  xlab("Year") + ylab("Life Expectancy (years)") +
+  theme_bw(),
+ncol = 2
+)
+
+```
+
+###Finding 3: Life Expectancy: Large Variance: Africa and Asia; Small Variance: Americas and Europe
+
+The largest Life Expectancy variations from this data-set are in Africa, and the smallest is in Europe. Africa has the largest data-set with 240 observations. Moreover, from the finding, above we saw that it is ranked lowest in both GDP and Life Expectancy. Europeans observation, clearly shows higher life expectancy with the lowest variation. Although Americas life expectancy has increased similar to Europe, the variation of GDP per capita seemed to widen year over year. Asia life expectancy variation has decreased over the year, and GDP per capita has significant variances that are due to due to the outliers we observed from Findings 1 and 2. 
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+extremGdp <- ddply(QP1, ~ continent+year, function(x) {
+  lifeExp <- range(x$lifeExp)
+  return(data.frame(lifeExp, stat = c("MIN: Life Expectancy ", "MAX: Life Expectancy ")))})
+
+xyplot(lifeExp ~ year|continent, extremGdp, groups=stat,
+       type=c('o','g'),
+       layout=c(5,1),
+       xlab='Year', ylab='Extreme life expectancy in years',
+       auto.key=list(column=1))
+
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+extremGdp <- ddply(QP1, ~ continent+year, function(x) {
+  gdpPercap <- range(x$gdpPercap)
+  return(data.frame(gdpPercap, stat = c("MIN: GDP per Capita", "MAX: GDP per Capita")))})
+
+xyplot(gdpPercap ~ year|continent, extremGdp, groups=stat,
+       type=c('o','g'),
+       layout=c(5,1),
+       xlab='Year', ylab='Extreme GDP per Capital',
+       auto.key=list(column=1))
+
+```
+
+
+###Conclusion 
+
+In conclusion, all continents have increased Life Expectancy year over year. There seem to a correlation between higher GDP per capita to higher Life expectancy. Europe has the highest life expectancy with the lowest variation although Americas and Europeans GDP per capita have increased relative similarly. Africa has the lowest life expectancy, and GDP per capita remained the lowest year over year.  Asia life expectancy and GDP per capita are rising, and the variation is getting smaller. A further breakdown of each continent by counties would probably show exciting findings.
+
+
+

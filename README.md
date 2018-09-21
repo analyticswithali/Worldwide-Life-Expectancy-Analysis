@@ -1,37 +1,10 @@
-## Welcome to GitHub Pages
+# Worldwide life Expectancy Analysis
 
-You can use the [editor on GitHub](https://github.com/analyticswithali/Worldwide-Life-Expectancy-Analysis/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+According to the Statistical Summary of the data, there are eight observations per country with 65 counties. These countries are further broken down into five continents. Years of the observations range from 1972 to 2007
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+1. Final Findings [html file](https://rawgit.com/analyticswithali/Mortgage-Loan-Approval-Analysis/master/Mortgage%20Loan%20Approval%20Analysis%20EDA.html)
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/analyticswithali/Worldwide-Life-Expectancy-Analysis/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## Steps to this Analysis
+1. Download the [Raw Data](https://github.com/analyticswithali/Mortgage-Loan-Approval-Analysis/blob/master/MLD%20Data%20File.csv)
+2. Analysis EDA [R file](https://github.com/analyticswithali/Mortgage-Loan-Approval-Analysis/blob/master/Mortgage%20Loan%20Approval%20Analysis%20EDA.Rmd)
+4. Final Findings [PDF file](https://rawgit.com/analyticswithali/Mortgage-Loan-Approval-Analysis/master/Mortgage%20Loan%20Approval%20Analysis%20Final.pdf)
